@@ -2,12 +2,14 @@ const game = new Game()
 const background = new Background()
 const player = new Player()
 const ball = new Ball(20, 20, 0)
+
 // this is used to load the game assets
 
 function preload() {
 game.preload()
 player.preload()
 ball.preload()
+// brick.preload()
 }
 
 function setup() {
@@ -18,11 +20,7 @@ function setup() {
 function draw(){
   background.draw()
   ball.draw() 
-  player.draw()
   game.draw()
+  player.draw()
 }
 
-function mouseClicked(){
-  ball.x +=1
-
-}
