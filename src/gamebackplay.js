@@ -9,15 +9,13 @@ let rigthStickY=0
 let topStickX=20
 let topStickY=0
 let speedX = 2
-let speedY = -7
-let score = 0
+let speedY = -5
+let  score= 0 
+let bricksCount
 let count = 0
-console.log(score)
 
 class Game {
   constructor(){
-
-
     this.bricks = [];
     for(let i = 2; i<17; i++){
       this.bricks.push(new Brick(0, 50*i, 100))
@@ -26,12 +24,21 @@ class Game {
       this.bricks.push(new Brick(1, 50*i -20, 140))
     }
     for(let i = 2; i<17; i++){
-      this.bricks.push(new Brick(2 ,50*i, 180))
+      this.bricks.push(new Brick(2 ,50*i ,180))
     }    
     for(let i = 2; i<17; i++){
       this.bricks.push(new Brick(3 ,50*i -20, 220))
     }  
-    // console.log(this.bricks)
+    for(let i = 2; i<17; i+=3){
+      this.bricks.push(new Brick(1 ,50*i, 260))
+    }     
+     for(let i = 2; i<17; i+=3){
+      this.bricks.push(new Brick(3 ,50*i -40, 280))
+    }  
+    for(let i = 3; i<17; i+=3){
+      this.bricks.push(new Brick(1 ,50*i , 300))
+    }  
+    console.log(this.bricks.length)
   }
   draw(){
 		this.bricks.forEach(function (brick) {
@@ -46,6 +53,8 @@ class Game {
 				return true
 			}
 		})
+    bricksCount = this.bricks.length
+
 	}
 
   
@@ -58,6 +67,7 @@ class Game {
                         loadImage("../png/violet-brick.png")]
   }
 
+
 }
 class Player {
   constructor(){
@@ -68,8 +78,8 @@ class Player {
 // console.log("drawing")
    playerx = constrain(mouseX, leftWall, rigthWall);
     image(this.playerimage, playerx, this.y, 100,25);
-
   }
+  
   
   preload(){
     this.playerimage=loadImage("../png/table.png")
@@ -102,20 +112,19 @@ class Ball {
     image(this.rigthStick,rigthStickX,rigthStickY,20,550)
     //here the ball hits thee walls
     if(this.y <20){
-      speedY +=4
+      speedY +=2
         }
     if( ballx >860){
-      speedX -=3
+      speedX -=2
     }
     if(ballx <20){
-      speedX+=3
+      speedX +=2
     }
 
     //here the ball hits the table
     let distBallPlayer = Math.round(dist(ballx, this.y -15, playerx+50, player.y))
-    if(distBallPlayer<50 && frameCount>50){
-      speedY *= -1 *(Math.random() * 0.5 +0.85) 
-      // speedX *= -1 * (Math.random() * 0.5 +0.75)
+    if(distBallPlayer<50 && frameCount>45){
+      speedY *= -1 *(Math.random() * 0.5 +0.80) 
     } 
 
   }
@@ -141,24 +150,20 @@ class Brick {
 draw(){
   image(game.bricksColors[this.color], this.x, this.y, 50, 20)
 }
-collision(ballInfo) {
-  // console.log('collision', playerInfo)
-  // dist(x, y, 2ndx, 2ndy) returns the distance
-  // get the middle of the obstacle
+collision() {
+  // get the middle of the bricks
   let brickX = this.x + 50 / 2
   let brickY = this.y + 20 / 2
-  let ballX = ballInfo.x + ballInfo.width / 2
-  let ballY = ballInfo.y + ballInfo.height / 2
   // get the middle of the player
-// console.log("ok")
   if (dist(brickX, brickY, ballx, ball.y) > 25) {
     return false
   } else {
     // increment the score
-        // speedX *= -1
-        // speedY *= -1
-        // score+= 1
-        document.querySelector(".score").innerText=score+=1;
+        speedX  *= (Math.random() * 0.25 +0.80)
+        speedY *= -1 *(Math.random() * 0.6 +0.70)
+        document.querySelector(".score").innerText=score+=10;
+        document.querySelector(".brickscount").innerText=bricksCount;
+    
         
         return true
   }
