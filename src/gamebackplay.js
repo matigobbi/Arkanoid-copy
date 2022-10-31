@@ -14,6 +14,11 @@ let  score= 0
 let bricksCount
 let count = 0
 
+function keyPressed(){
+	if(keyCode === 32){
+		location.reload();
+}};
+
 class Game {
   constructor(){
     this.bricks = [];
@@ -125,7 +130,15 @@ class Ball {
     let distBallPlayer = Math.round(dist(ballx, this.y -15, playerx+50, player.y))
     if(distBallPlayer<50 && frameCount>45){
       speedY *= -1 *(Math.random() * 0.5 +0.80) 
-    } 
+    }
+      // here the game finish 
+  if(this.y>610 ){
+    console.log("hello")
+    textSize(40);
+    text(" You loose :(",350, 400)
+    text(" Press Spacebar to play again", 190 , 440)	;
+    keyPressed()
+  }
 
   }
 
@@ -149,6 +162,7 @@ class Brick {
 
 draw(){
   image(game.bricksColors[this.color], this.x, this.y, 50, 20)
+  console.log()
 }
 collision() {
   // get the middle of the bricks
@@ -164,8 +178,9 @@ collision() {
         document.querySelector(".score").innerText=score+=10;
         document.querySelector(".brickscount").innerText=bricksCount;
     
-        
+        console.log("fhasdifj")
         return true
   }
 }
 }
+//jaasdnkjas
